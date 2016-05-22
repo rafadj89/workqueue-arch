@@ -1,0 +1,14 @@
+{
+    "report-id": "7b51aa48-36a9-4c07-adbb-bf68f1c7bc97",
+    "report-code": "admisiones",
+    "report-params": [
+        {
+            "nombre": "id-admitido",
+            "valor": "1297989323"
+        },
+        {
+            "nombre": "nombre-admitido",
+            "valor": "Juan Perez"
+        }
+    ]
+}

@@ -1,0 +1,41 @@
+        
+static:
+    resources:
+        filepath:   file:./wwwroot/
+        
+logging:
+    level:
+        org:
+            springframework:
+                web:    INFO
+
+
+
+server:
+  port: 8080
+
+
+spring:
+  thymeleaf:
+        cache:  false
+        prefix: file:./wwwroot/templates/    
+    
+  activemq:
+    broker-url: tcp://127.0.0.1:61616
+    user: admin
+    password: admin
+
+work:
+  queue:
+      input: reportq-out
+      output: reportq-in
+    
+
+#Propiedades de  configuracion para el Message Broker
+jms:
+  cache:
+    size: 10
+
+     
+
+    
