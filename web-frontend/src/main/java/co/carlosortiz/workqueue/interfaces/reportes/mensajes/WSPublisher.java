@@ -5,7 +5,8 @@
  */
 package co.carlosortiz.workqueue.interfaces.reportes.mensajes;
 
-import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 
 /**
@@ -14,8 +15,15 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class WSPublisher {
-    @SendTo("/topic/greetings")
-    public String publish(String msg) {
-        return msg;
+
+    private SimpMessagingTemplate template;
+
+    @Autowired
+    public WSPublisher(SimpMessagingTemplate template) {
+        this.template = template;
+    }
+
+    public void publish(String msg) {
+        this.template.convertAndSend("/topic/greetings", msg);
     }
 }
