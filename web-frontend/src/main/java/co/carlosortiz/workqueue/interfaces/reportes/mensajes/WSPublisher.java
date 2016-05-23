@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
  *
  * @author Carlos
  */
-@Component
+//@Component
 public class WSPublisher {
 
     private SimpMessagingTemplate template;

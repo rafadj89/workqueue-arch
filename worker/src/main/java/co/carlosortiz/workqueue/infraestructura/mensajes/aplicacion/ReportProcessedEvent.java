@@ -12,6 +12,7 @@ package co.carlosortiz.workqueue.infraestructura.mensajes.aplicacion;
 public class ReportProcessedEvent implements IReportProcessedEvent{
     private String reportId;
     private String reportCode;
+    private String reportUser;
     private ReportStatus reportStatus;
 
     public ReportProcessedEvent() {
@@ -19,9 +20,10 @@ public class ReportProcessedEvent implements IReportProcessedEvent{
 
     
     
-    public ReportProcessedEvent(String reportId, String reportCode, ReportStatus reportStatus) {
+    public ReportProcessedEvent(String reportId, String reportCode, String reportUser, ReportStatus reportStatus) {
         this.reportId = reportId;
         this.reportCode = reportCode;
+        this.reportUser = reportUser;
         this.reportStatus = reportStatus;
     }
 
@@ -37,6 +39,10 @@ public class ReportProcessedEvent implements IReportProcessedEvent{
         return reportStatus;
     }
 
-   
+    public String getReportUser() {
+        return reportUser;
+    }
+
+    
     
 }

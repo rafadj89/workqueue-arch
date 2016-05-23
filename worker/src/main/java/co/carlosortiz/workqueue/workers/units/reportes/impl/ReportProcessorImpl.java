@@ -49,6 +49,7 @@ public class ReportProcessorImpl implements ReportProcessor {
      {
      "report-id": "7b51aa48-36a9-4c07-adbb-bf68f1c7bc97",
      "report-code": "admisiones",
+     "report-user": "jhondoe",
      "report-params": [
      {
      "nombre": "id-admitido",
@@ -67,25 +68,27 @@ public class ReportProcessorImpl implements ReportProcessor {
         try {
             ObjectMapper mapper = new ObjectMapper();
             JsonNode root = mapper.readTree(message);
-            String reportId = root.path("report-id").asText();
-            String reportCode = root.path("report-code").asText();
+            String reportId = root.path("id").asText();
+            String reportCode = root.path("code").asText();
+            String reportUser = root.path("user").asText();
 
             LOGGER.info("report-code: [{}]" , reportCode);
             LOGGER.info("report-id: [{}]" , reportId);
+            LOGGER.info("report-user: [{}]" , reportUser);
 
             //Obtiene los parametros del reporte
             Map<String, String> reportParams
-                    = mapReportParams(root.path("report-params"));
+                    = mapReportParams(root.path("params"));
 
             //Delega la construccion del reporte al builder especifico
-            this.buildReport(reportId, reportCode, reportParams);
+            this.buildReport(reportId, reportCode, reportUser, reportParams);
 
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }
     }
 
-    private void buildReport(String reportId, String reportCode,
+    private void buildReport(String reportId, String reportCode, String reportUser,
             Map<String, String> reportParams) {
         ReportBuilder reportBuilder = reportBuilders.get(reportCode + "ReportBuilder");
         if (reportBuilder == null) {
@@ -100,7 +103,7 @@ public class ReportProcessorImpl implements ReportProcessor {
              LOGGER.error("Ocurrio un error ejecutando reporte [{}]" , reportCode, e);
         } finally {
                 publisher.publishEvent(new ReportProcessedEvent(reportId,
-                        reportCode, status));
+                        reportCode, reportUser, status));
         }
     }
 
