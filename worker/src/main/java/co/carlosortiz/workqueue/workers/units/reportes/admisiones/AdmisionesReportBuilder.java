@@ -32,20 +32,20 @@ public class AdmisionesReportBuilder implements ReportBuilder {
         LOGGER.info("Inicia generacion del reporte Admisiones , id [{}]", reportId);
 
         //Simulamos una operacion demorada
-        
-        
+        try {
+            Thread.sleep(8000);
+        } catch (InterruptedException ie) {
+
+        }
         //Grabamos el reporte en el repositorio mongo
         byte[] data = this.readReportFromFS();
-        String filename = reportId + ".pdf";        
-        if (data!=null) {
+        String filename = reportId + ".pdf";
+        if (data != null) {
             this.mongoRepository.saveFile(filename, data, "reportes");
         }
-        
+
         //Generamos mensaje de salida notificando la generacion del reporte
-        
-        
-        
-        LOGGER.info("reporte admisiones con id [{}] generado exitosamente" , reportId);
+        LOGGER.info("reporte admisiones con id [{}] generado exitosamente", reportId);
     }
 
     private byte[] readReportFromFS() {
@@ -59,7 +59,7 @@ public class AdmisionesReportBuilder implements ReportBuilder {
                 data[i++] = (byte) b;
             }
         } catch (IOException ioe) {
-            LOGGER.error("Error leyendo reporte" , ioe);
+            LOGGER.error("Error leyendo reporte", ioe);
         }
         return data;
     }

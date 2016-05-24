@@ -16,7 +16,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -53,8 +52,7 @@ public class ReportController {
 
     @RequestMapping(method = RequestMethod.GET)
     public DeferredResult<ResponseEntity<String>> create() {
-        DeferredResult<ResponseEntity<String>> deferredResult
-                = new DeferredResult<ResponseEntity<String>>();
+        DeferredResult<ResponseEntity<String>> deferredResult = new DeferredResult();
 
         String reportId = UUID.randomUUID().toString();
         List<ReportParam> params = new ArrayList<>();
@@ -62,9 +60,9 @@ public class ReportController {
         params.add(param1);
         Report report = new Report(reportId, "admisiones", "cortiz", params);
 
-        reportRequestPublisher.publish(report);
         reportResultProcessor.registerReportCreationJob(reportId,
                 deferredResult);
+        reportRequestPublisher.publish(report);
 
         return deferredResult;
     }
@@ -84,7 +82,7 @@ public class ReportController {
             String filename = reportId + ".pdf";
             GridFSDBFile reportFile = null;
             List<GridFSDBFile> files = gfsReportes.find(filename);
-            
+
             if (files.isEmpty()) {
                 System.out.println("===>>report not found");
                 return new ResponseEntity<String>(HttpStatus.NOT_FOUND);

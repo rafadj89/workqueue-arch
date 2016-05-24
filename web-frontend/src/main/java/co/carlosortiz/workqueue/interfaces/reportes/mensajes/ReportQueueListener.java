@@ -45,7 +45,7 @@ public class ReportQueueListener {
             LOGGER.info("report-id: [{}]", reportId);
             LOGGER.info("report-user: [{}]", reportUser);
             
-            this.reportResultProcessor.setJobResult(reportId, reportStatus);
+            this.reportResultProcessor.setWSSJobResult(reportId, reportStatus);
         } catch (Exception e) {
             LOGGER.error("Ocurrio un error procesando resultado" , e);
         }

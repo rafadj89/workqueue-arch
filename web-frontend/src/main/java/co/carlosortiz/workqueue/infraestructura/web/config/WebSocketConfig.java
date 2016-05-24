@@ -5,7 +5,10 @@
  */
 package co.carlosortiz.workqueue.infraestructura.web.config;
 
+import co.carlosortiz.workqueue.aplicacion.servicios.ReportResultProcessor;
+import co.carlosortiz.workqueue.interfaces.reportes.mensajes.ReportRequestPublisher;
 import co.carlosortiz.workqueue.interfaces.reportes.web.sockets.ReportWebSocketHandler;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.socket.WebSocketHandler;
@@ -22,6 +25,11 @@ import org.springframework.web.socket.server.standard.ServletServerContainerFact
 @EnableWebSocket
 public class WebSocketConfig implements WebSocketConfigurer {
 
+    @Autowired
+    private ReportRequestPublisher reportRequestPublisher;
+    @Autowired
+    private ReportResultProcessor reportResultProcessor;
+
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
         registry.addHandler(myHandler(), "/reports");
@@ -29,7 +37,7 @@ public class WebSocketConfig implements WebSocketConfigurer {
 
     @Bean
     public WebSocketHandler myHandler() {
-        return new ReportWebSocketHandler();
+        return new ReportWebSocketHandler(reportRequestPublisher, reportResultProcessor);
     }
 
     @Bean
